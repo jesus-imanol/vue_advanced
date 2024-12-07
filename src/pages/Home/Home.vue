@@ -1,5 +1,6 @@
 <template>
   <Loader v-if="loading"></Loader>
+  <AlertMessage v-if="showAlert" :message="valueEmited" @close-modal="closeAlert"></AlertMessage>
   <div class="flex w-full h-screen bg-slate-900 items-center justify-center flex-col">
     <div class="flex items-center h-[100vh] bg-black flex-row flex-wrap gap-4 w-full justify-center">
       <Card
@@ -22,16 +23,27 @@ import { onMounted, ref } from 'vue'
 import Axios from 'Axios'
 import type { Character } from './models/ICharacter'
 import Loader from '@/utils/Loader.vue'
+import AlertMessage from '@/utils/AlertMessage.vue'
+
 
 defineOptions({
   name: 'HomePage',
 })
-
 const loading = ref(false)
-
+const showAlert = ref(false)
+const valueEmited = ref('')
 const name = ($event: string) => {
-  alert($event)
+ showAlert.value = true
+ valueEmited.value = $event
+ setTimeout(() => {
+  showAlert.value = false
+ }, 3000)
 }
+
+const closeAlert = ($event:boolean) => {
+ showAlert.value = $event
+}
+
 
 const productss = ref<Character[]>([])
 
