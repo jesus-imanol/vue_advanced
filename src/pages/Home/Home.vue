@@ -49,8 +49,9 @@ const productss = ref<Character[]>([])
 
 onMounted(async () => {
   try {
-    loading.value = true
-    const response = await Axios.get('https://dragonball-api.com/api/characters')
+    loading.value = true;
+    const url = import.meta.env.VITE_URL;
+    const response = await Axios.get(`${url}characters`);
     productss.value = response.data.items
     console.log(productss.value);
 
